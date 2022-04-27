@@ -1,0 +1,42 @@
+﻿@page "/pagina"
+@inject HttpClient Http
+@using EventoApp.Web.Shared
+
+<PageTitle>Anime List</PageTitle>
+
+<MudText Typo="Typo.h3" GutterBottom="true">Anime List</MudText>
+<MudText Class="mb-8">Este componente demonstra a busca de dados do servidor.</MudText>
+
+@if (forecasts == null)
+{
+    <MudProgressCircular Color="Color.Default" Indeterminate="true" />
+}
+else
+{
+    <MudTable Items="forecasts" Hover="true" SortLabel="Sort By" Elevation="0">
+        <HeaderContent>
+            <MudTh><MudTableSortLabel InitialDirection="SortDirection.Ascending" SortBy="new Func<MyUltimateAnimeList, object>(x=>x.Rank)">Rank</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<MyUltimateAnimeList, object>(x=>x.Titulo)">Titulo</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel SortBy="new Func<MyUltimateAnimeList, object>(x=>x.Score)">Score</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="rank">@context.Rank</MudTd>
+            <MudTd DataLabel="Temp. (C)">@context.Titulo</MudTd>
+            <MudTd DataLabel="Temp. (F)">@context.Score</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager PageSizeOptions="new int[]{50, 100}" />
+        </PagerContent>
+    </MudTable>
+}
+
+
+
+@code {
+    private MyUltimateAnimeList[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await Http.GetFromJsonAsync<MyUltimateAnimeList[]>("sample-data/animelist.json");
+    }
+}
