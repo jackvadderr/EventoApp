@@ -1,3 +1,4 @@
+using EventoApp.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EventoApp.Api.Controllers
